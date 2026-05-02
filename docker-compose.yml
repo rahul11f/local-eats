@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: local-eats-mongodb
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password123
+      MONGO_INITDB_DATABASE: local-eats
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+    networks:
+      - local-eats-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API Server
+  backend:
+    build:
+      context: ./local-eats-server
+      dockerfile: Dockerfile
+    container_name: local-eats-backend
+    ports:
+      - '5000:5000'
+    environment:
+      NODE_ENV: development
+      MONGODB_URI: mongodb://admin:password123@mongodb:27017/local-eats
+      JWT_SECRET: your_super_secret_key_change_this
+      PORT: 5000
+      FRONTEND_URL: http://localhost:3000
+      RAZORPAY_KEY_ID: test_key
+      RAZORPAY_KEY_SECRET: test_secret
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - ./local-eats-server:/app
+      - /app/node_modules
+    networks:
+      - local-eats-network
+    healthcheck:
+      test: curl --fail http://localhost:5000/api/health || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Frontend Development Server
+  frontend:
+    build:
+      context: ./local-eats-client
+      dockerfile: Dockerfile.dev
+    container_name: local-eats-frontend
+    ports:
+      - '3000:3000'
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:5000/api
+      NEXT_PUBLIC_SOCKET_URL: http://localhost:5000
+    depends_on:
+      - backend
+    volumes:
+      - ./local-eats-client:/app
+      - /app/node_modules
+    networks:
+      - local-eats-network
+
+volumes:
+  mongodb_data:
+  mongodb_config:
+
+networks:
+  local-eats-network:
+    driver: bridge
