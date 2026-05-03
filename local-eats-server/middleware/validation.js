@@ -22,12 +22,19 @@ const schemas = {
     password: Joi.string().min(6).required().messages({
       'string.empty': 'Password is required',
       'string.min': 'Password must be at least 6 characters'
+    }),
+    confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
+      'any.only': 'Passwords do not match',
+      'string.empty': 'Confirm password is required'
     })
   }),
 
   // User Login
   userLogin: Joi.object({
-    email: Joi.string().email().required(),
+    phone: Joi.string().required().pattern(/^[6-9]\d{9}$/).messages({
+      'string.empty': 'Phone number is required',
+      'string.pattern.base': 'Please provide a valid Indian phone number'
+    }),
     password: Joi.string().required()
   }),
 
