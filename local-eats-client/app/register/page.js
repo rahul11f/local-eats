@@ -16,6 +16,7 @@ export default function RegisterPage() {
     email: '',
     phone: '',
     password: '',
+    confirmPassword: '',
   });
   const [loading, setLoading] = useState(false);
 
@@ -28,6 +29,11 @@ export default function RegisterPage() {
     
     if (formData.password.length < 6) {
       toast.error('Password must be at least 6 characters long');
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      toast.error('Passwords do not match');
       return;
     }
     
@@ -127,6 +133,21 @@ export default function RegisterPage() {
                 type="password"
                 name="password"
                 value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-sm"
+                placeholder="••••••••"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-sm font-semibold text-gray-700 ml-1">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-sm"
