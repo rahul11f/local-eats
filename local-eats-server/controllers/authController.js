@@ -51,17 +51,22 @@ exports.registerCustomer = asyncHandler(async (req, res, next) => {
 // @route   POST /api/auth/login
 // @access  Public
 exports.loginCustomer = asyncHandler(async (req, res, next) => {
-  const { email, password } = req.body;
+  // Flexibly accept phone, email, or loginId
+  const loginId = req.body.phone || req.body.email || req.body.loginId;
+  const { password } = req.body;
 
   // Validation
-  if (!email || !password) {
-    throw new AppError('Please provide email and password', 400);
+  if (!loginId || !password) {
+    throw new AppError('Please provide login credentials and password', 400);
   }
 
   // Check if user exists and password is correct
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({ 
+    $or: [{ email: loginId }, { phone: loginId }] 
+  }).select('+password');
+
   if (!user || !(await user.matchPassword(password))) {
-    throw new AppError('Invalid email or password', 401);
+    throw new AppError('Invalid email, phone or password', 401);
   }
 
   // Check if user is blocked
