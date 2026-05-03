@@ -28,8 +28,9 @@ const allowedOrigins = (process.env.FRONTEND_URL || 'http://localhost:3000')
 // Socket.IO configuration
 const io = socketIo(server, {
   cors: {
-    origin: allowedOrigins,
-    methods: ['GET', 'POST']
+    origin: true,
+    methods: ['GET', 'POST'],
+    credentials: true
   }
 });
 
@@ -39,7 +40,7 @@ const io = socketIo(server, {
 app.use(helmet());
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: true, // Allow all origins dynamically
     credentials: true
   })
 );
