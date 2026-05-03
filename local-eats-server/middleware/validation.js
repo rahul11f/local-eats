@@ -27,7 +27,7 @@ const schemas = {
       'any.only': 'Passwords do not match',
       'string.empty': 'Confirm password is required'
     })
-  }),
+  }).options({ stripUnknown: true }),
 
   // User Login
   userLogin: Joi.object({
@@ -36,7 +36,7 @@ const schemas = {
       'string.pattern.base': 'Please provide a valid Indian phone number'
     }),
     password: Joi.string().required()
-  }),
+  }).options({ stripUnknown: true }),
 
   // Create Order
   createOrder: Joi.object({
@@ -140,7 +140,7 @@ const validate = (schema) => {
     if (error) {
       return res.status(400).json({
         success: false,
-        message: 'Validation error',
+        message: error.details[0].message, // Provide the exact specific error
         details: error.details.map((d) => ({
           field: d.path.join('.'),
           message: d.message
