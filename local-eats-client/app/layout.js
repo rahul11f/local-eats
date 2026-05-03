@@ -24,27 +24,30 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#FF6B35" />
         {/* Structured Data for Local SEO */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'LocalBusiness',
-            name: 'LocalEats',
-            description: 'Zero Commission Food Delivery Platform',
-            image: '/logo.png',
-            telephone: '+91-XXXXXXXXXX',
-            email: 'support@localeatskahalgaon.com',
-            address: {
-              '@type': 'PostalAddress',
-              streetAddress: 'Kahalgaon',
-              addressLocality: 'Kahalgaon',
-              addressRegion: 'Bihar',
-              postalCode: '813207',
-              addressCountry: 'IN',
-            },
-            areaServed: 'Kahalgaon',
-            url: 'https://localeatskahalgaon.com',
-          })}
-        </script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'LocalBusiness',
+              name: 'LocalEats',
+              description: 'Zero Commission Food Delivery Platform',
+              image: '/logo.png',
+              telephone: '+91-XXXXXXXXXX',
+              email: 'support@localeatskahalgaon.com',
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: 'Kahalgaon',
+                addressLocality: 'Kahalgaon',
+                addressRegion: 'Bihar',
+                postalCode: '813207',
+                addressCountry: 'IN',
+              },
+              areaServed: 'Kahalgaon',
+              url: 'https://localeatskahalgaon.com',
+            })
+          }}
+        />
       </head>
       <body>
         <Navbar />
