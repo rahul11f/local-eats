@@ -22,10 +22,6 @@ const schemas = {
     password: Joi.string().min(6).required().messages({
       'string.empty': 'Password is required',
       'string.min': 'Password must be at least 6 characters'
-    }),
-    confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
-      'any.only': 'Passwords do not match',
-      'string.empty': 'Confirm password is required'
     })
   }).options({ stripUnknown: true }),
 

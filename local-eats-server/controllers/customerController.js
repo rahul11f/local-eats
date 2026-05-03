@@ -25,20 +25,13 @@ const emailTransporter = nodemailer.createTransport({
 // @access Public
 exports.registerCustomer = async (req, res) => {
   try {
-    const { name, phone, email, password, confirmPassword } = req.body;
+    const { name, phone, email, password } = req.body;
 
     // Validation
     if (!name || !phone || !email || !password) {
       return res.status(400).json({
         success: false,
         message: 'Please provide all required fields'
-      });
-    }
-
-    if (password !== confirmPassword) {
-      return res.status(400).json({
-        success: false,
-        message: 'Passwords do not match'
       });
     }
 
