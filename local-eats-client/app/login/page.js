@@ -12,7 +12,7 @@ export default function LoginPage() {
   const setAuth = useAuthStore((state) => state.setAuth);
   
   const [formData, setFormData] = useState({
-    email: '',
+    phone: '',
     password: '',
   });
   const [loading, setLoading] = useState(false);
@@ -63,16 +63,16 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-1">
               <label className="block text-sm font-semibold text-gray-700 ml-1">
-                Email Address
+                Phone Number
               </label>
               <input
-                type="email"
-                name="email"
-                value={formData.email}
+                type="tel"
+                name="phone"
+                value={formData.phone}
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all shadow-sm"
-                placeholder="you@example.com"
+                placeholder="9876543210"
               />
             </div>
 
