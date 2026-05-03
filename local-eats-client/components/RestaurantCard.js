@@ -9,23 +9,26 @@ export default function RestaurantCard({ restaurant }) {
 
   return (
     <Link href={`/restaurant/${restaurant._id}`}>
-      <div className="card cursor-pointer group">
+      <div className="bg-white rounded-3xl p-4 border border-gray-100 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group">
         {/* Restaurant Banner */}
-        <div className="relative w-full h-48 mb-4 rounded-lg overflow-hidden bg-gray-200">
+        <div className="relative w-full h-52 mb-5 rounded-2xl overflow-hidden bg-gray-100">
           {restaurant.banner ? (
             <Image
               src={restaurant.banner}
               alt={restaurant.name}
               fill
-              className="object-cover group-hover:scale-110 transition-transform duration-300"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-              <span className="text-white text-4xl">🍽️</span>
+            <div className="w-full h-full bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+              <span className="text-5xl drop-shadow-md">🍽️</span>
             </div>
           )}
           {/* Badge */}
-          <div className="absolute top-3 right-3 bg-primary text-white px-3 py-1 rounded-full text-sm font-semibold">
+          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-900 px-3 py-1.5 rounded-full text-xs font-bold shadow-sm">
+            {getDeliveryTime()} mins
+          </div>
+          <div className="absolute bottom-3 right-3 bg-primary text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-sm">
             ₹0 Commission
           </div>
         </div>
