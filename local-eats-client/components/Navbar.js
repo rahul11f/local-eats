@@ -10,10 +10,12 @@ export default function Navbar() {
   const { getItemCount } = useCartStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [itemCount, setItemCount] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     useAuthStore.persist.rehydrate();
     setItemCount(getItemCount());
+    setMounted(true);
   }, [getItemCount]);
 
   const handleLogout = () => {
@@ -33,33 +35,37 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-6">
-          {isLoggedIn ? (
-            <>
-              <Link href="/" className="text-dark hover:text-primary transition">
-                Home
-              </Link>
-              <Link href="/orders" className="text-dark hover:text-primary transition">
-                Orders
-              </Link>
-              <Link href="/profile" className="text-dark hover:text-primary transition">
-                Profile
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="text-dark hover:text-primary transition"
-              >
-                Logout
-              </button>
-            </>
+          {mounted ? (
+            isLoggedIn ? (
+              <>
+                <Link href="/" className="text-dark hover:text-primary transition">
+                  Home
+                </Link>
+                <Link href="/orders" className="text-dark hover:text-primary transition">
+                  Orders
+                </Link>
+                <Link href="/profile" className="text-dark hover:text-primary transition">
+                  Profile
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="text-dark hover:text-primary transition"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="text-dark hover:text-primary transition">
+                  Login
+                </Link>
+                <Link href="/register" className="btn btn-primary">
+                  Sign Up
+                </Link>
+              </>
+            )
           ) : (
-            <>
-              <Link href="/login" className="text-dark hover:text-primary transition">
-                Login
-              </Link>
-              <Link href="/register" className="btn btn-primary">
-                Sign Up
-              </Link>
-            </>
+            <div className="w-48 h-8 bg-gray-200 animate-pulse rounded"></div>
           )}
         </div>
 
@@ -70,7 +76,7 @@ export default function Navbar() {
             className="relative p-2 hover:bg-light rounded-lg transition"
           >
             <FiShoppingCart className="text-2xl" />
-            {itemCount > 0 && (
+            {mounted && itemCount > 0 && (
               <span className="absolute top-0 right-0 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {itemCount}
               </span>
@@ -94,33 +100,35 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-light border-t">
           <div className="container py-4 flex flex-col gap-4">
-            {isLoggedIn ? (
-              <>
-                <Link href="/" className="text-dark hover:text-primary">
-                  Home
-                </Link>
-                <Link href="/orders" className="text-dark hover:text-primary">
-                  Orders
-                </Link>
-                <Link href="/profile" className="text-dark hover:text-primary">
-                  Profile ({user?.name})
-                </Link>
-                <button
-                  onClick={handleLogout}
-                  className="text-left text-dark hover:text-primary"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <Link href="/login" className="text-dark hover:text-primary">
-                  Login
-                </Link>
-                <Link href="/register" className="btn btn-primary text-center">
-                  Sign Up
-                </Link>
-              </>
+            {mounted && (
+              isLoggedIn ? (
+                <>
+                  <Link href="/" className="text-dark hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>
+                    Home
+                  </Link>
+                  <Link href="/orders" className="text-dark hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>
+                    Orders
+                  </Link>
+                  <Link href="/profile" className="text-dark hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>
+                    Profile ({user?.name})
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="text-left text-dark hover:text-primary"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login" className="text-dark hover:text-primary" onClick={() => setIsMobileMenuOpen(false)}>
+                    Login
+                  </Link>
+                  <Link href="/register" className="btn btn-primary text-center" onClick={() => setIsMobileMenuOpen(false)}>
+                    Sign Up
+                  </Link>
+                </>
+              )
             )}
           </div>
         </div>
