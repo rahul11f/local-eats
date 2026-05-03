@@ -111,18 +111,22 @@ exports.registerCustomer = async (req, res) => {
 // @access Public
 exports.loginCustomer = async (req, res) => {
   try {
-    const { phone, password } = req.body;
+    // We accept 'phone', 'email', or 'loginId' to be fully flexible with cached frontends
+    const loginId = req.body.phone || req.body.email || req.body.loginId;
+    const { password } = req.body;
 
     // Validation
-    if (!phone || !password) {
+    if (!loginId || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide phone and password'
+        message: 'Please provide login credentials and password'
       });
     }
 
-    // Find user and include password
-    const user = await User.findOne({ phone }).select('+password');
+    // Find user by either phone or email
+    const user = await User.findOne({ 
+      $or: [{ phone: loginId }, { email: loginId }] 
+    }).select('+password');
 
     if (!user) {
       return res.status(401).json({

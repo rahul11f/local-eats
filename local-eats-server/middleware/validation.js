@@ -31,10 +31,9 @@ const schemas = {
 
   // User Login
   userLogin: Joi.object({
-    phone: Joi.string().required().pattern(/^[6-9]\d{9}$/).messages({
-      'string.empty': 'Phone number is required',
-      'string.pattern.base': 'Please provide a valid Indian phone number'
-    }),
+    phone: Joi.string().optional(),
+    email: Joi.string().optional(),
+    loginId: Joi.string().optional(),
     password: Joi.string().required()
   }).options({ stripUnknown: true }),
 
