@@ -87,4 +87,16 @@ export const orderAPI = {
     api.put(`/orders/${id}/driver-location`, data),
 };
 
+// Admin API calls
+export const adminAPI = {
+  getAnalytics: () => api.get('/admin/analytics'),
+  getUsers: () => api.get('/admin/users'),
+  getRestaurants: () => api.get('/admin/restaurants'),
+  getPendingRestaurants: () => api.get('/admin/restaurants/pending'),
+  approveRestaurant: (id, data) => api.put(`/admin/restaurants/${id}/approve`, data),
+  getOrders: () => api.get('/admin/orders/monitoring'),
+  getDrivers: () => api.get('/admin/drivers'),
+  approveDriver: (id, data) => api.put(`/admin/drivers/${id}/approve`, data),
+};
+
 export default api;

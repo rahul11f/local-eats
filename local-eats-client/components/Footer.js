@@ -104,13 +104,13 @@ export default function Footer() {
         <div className="border-t border-gray-700 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-gray-400 text-sm">
             <div className="flex gap-4 flex-wrap">
-              <Link href="/" className="hover:text-primary transition">
+              <Link href="/privacy" className="hover:text-primary transition">
                 Privacy Policy
               </Link>
-              <Link href="/" className="hover:text-primary transition">
+              <Link href="/terms" className="hover:text-primary transition">
                 Terms & Conditions
               </Link>
-              <Link href="/" className="hover:text-primary transition">
+              <Link href="/privacy" className="hover:text-primary transition">
                 Cookie Policy
               </Link>
             </div>

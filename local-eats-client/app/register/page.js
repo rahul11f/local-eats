@@ -48,9 +48,17 @@ export default function RegisterPage() {
       const response = await authAPI.register(formData);
 
       if (response.data.success) {
-        setAuth(response.data.data.user, response.data.data.token);
+        const user = response.data.data ? response.data.data.user : response.data.user;
+        const token = response.data.data ? response.data.data.token : response.data.token;
+        
+        setAuth(user, token);
         toast.success('Account created successfully! Welcome to LocalEats!');
-        router.push('/');
+        
+        if (user && user.role === 'admin') {
+          router.push('/admin');
+        } else {
+          router.push('/');
+        }
       }
     } catch (error) {
       toast.error(

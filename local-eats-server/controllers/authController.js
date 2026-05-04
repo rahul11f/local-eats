@@ -42,7 +42,8 @@ exports.registerCustomer = asyncHandler(async (req, res, next) => {
       id: user._id,
       name: user.name,
       email: user.email,
-      phone: user.phone
+      phone: user.phone,
+      role: user.role
     }
   });
 });
@@ -86,6 +87,7 @@ exports.loginCustomer = asyncHandler(async (req, res, next) => {
       name: user.name,
       email: user.email,
       phone: user.phone,
+      role: user.role,
       totalOrders: user.totalOrders
     }
   });
