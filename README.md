@@ -8,7 +8,7 @@ A platform for discovering local restaurants and eateries in your area.
 - Easy to set up and run locally.
 
 ## 🚀 Live Demo
-Check out the live version here: [Live Demo](https://rahul11f.github.io/local-eats)
+A live demo is not currently available for this project.
 
 ## 🛠️ Installation & Setup
 
